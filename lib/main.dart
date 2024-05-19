@@ -99,8 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     subtitle: BookingSubtitle("subtitle"))),
             Image.network(
                 "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"),
-            Image.network(
-                "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg"),
+            // Image.network("https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg"),
             const Text(
               'You have pushed the button this many times:',
             ),
