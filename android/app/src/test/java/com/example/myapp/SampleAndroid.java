@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 
@@ -25,18 +26,17 @@ public class SampleAndroid {
         capabilities.setCapability("automationName", "UiAutomator2");
         capabilities.setCapability("deviceName", "emulator-5554");
         capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("app",
-                "build/app/outputs/flutter-apk/app-debug.apk");
+        capabilities.setCapability("app", "build/app/outputs/flutter-apk/app-debug.apk");
         AppiumDriver driver = new AndroidDriver(url, capabilities);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         System.out.println("Android Driver Initialized");
+
         WebElement pageHeading = driver.findElement(By.xpath("//*[@content-desc='Flutter Demo Home Page']"));
         WebElement countText = driver.findElement(By.
                 xpath("//*[@content-desc='You have pushed the button this many times:']"));
         WebElement countValue = driver.findElement(By.
                 xpath("//*[@content-desc='You have pushed the button this many times:']/following-sibling::android.view.View"));
-        WebElement incrementButton = driver.findElement(By.
-                xpath("//*[@content-desc='Increment']"));
+        WebElement incrementButton = driver.findElement(AppiumBy.accessibilityId("Plus Button"));
         Assert.assertTrue(pageHeading.isDisplayed());
         Assert.assertTrue(countText.isDisplayed());
         Assert.assertEquals(countValue.getAttribute("content-desc"), "0");
