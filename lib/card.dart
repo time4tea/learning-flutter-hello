@@ -6,8 +6,10 @@ extension type BookingSubtitle(String value) {}
 class Booking {
   final BookingTitle title;
   final BookingSubtitle subtitle;
+  final String imageUri;
 
-  const Booking({required this.title, required this.subtitle});
+  const Booking(
+      {required this.title, required this.subtitle, required this.imageUri});
 }
 
 class CardExample extends StatelessWidget {
@@ -23,10 +25,10 @@ class CardExample extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: const Icon(Icons.album),
-              title: Text(booking.title.value),
-              subtitle: Text(booking.subtitle.value),
-            ),
+                leading: const Icon(Icons.album),
+                title: Text(booking.title.value),
+                subtitle: Text(booking.subtitle.value),
+                trailing: Image.network(booking.imageUri)),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
