@@ -12,45 +12,49 @@ class Booking {
       {required this.title, required this.subtitle, required this.imageUri});
 }
 
-class CardExample extends StatelessWidget {
+class BookingWidget extends StatelessWidget {
   final Booking booking;
 
-  CardExample({super.key, required this.booking});
+  BookingWidget({super.key, required this.booking});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-                leading: const Icon(Icons.album),
-                title: Text(booking.title.value),
-                subtitle: Text(booking.subtitle.value),
-                trailing: Image.network(booking.imageUri)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+      child: Semantics(
+          identifier: "booking",
+          label: booking.title.value,
+          container: true,
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                TextButton(
-                  child: const Text('BUY TICKETS'),
-                  onPressed: () {
-                    /* ... */
-                  },
+                ListTile(
+                    leading: const Icon(Icons.album),
+                    title: Text(booking.title.value),
+                    subtitle: Text(booking.subtitle.value),
+                    trailing: Image.network(booking.imageUri)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      child: const Text('BUY TICKETS'),
+                      onPressed: () {
+                        /* ... */
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    TextButton(
+                      child: const Text('LISTEN'),
+                      onPressed: () {
+                        /* ... */
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: const Text('LISTEN'),
-                  onPressed: () {
-                    /* ... */
-                  },
-                ),
-                const SizedBox(width: 8),
               ],
             ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

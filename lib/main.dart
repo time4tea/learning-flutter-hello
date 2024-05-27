@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // showSemanticsDebugger: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -93,10 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: const EdgeInsets.all(8),
           children: [
-            CardExample(
+            BookingWidget(
                 booking: Booking(
                     title: BookingTitle("title"),
-                    subtitle: BookingSubtitle("subtitle"))),
+                    subtitle: BookingSubtitle("subtitle"),
+                  imageUri: "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"
+
+                ),
+
+            ),
+
             Image.network(
                 "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"),
             // Image.network("https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg"),

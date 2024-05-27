@@ -24,9 +24,9 @@ void main() {
 
     HttpOverrides.runZoned(
       () async {
-        await tester.pumpWidget(single(CardExample(booking: booking)));
+        await tester.pumpWidget(single(BookingWidget(booking: booking)));
 
-        var image = await captureImage(find.byType(CardExample).evaluate().single);
+        var image = await captureImage(find.byType(BookingWidget).evaluate().single);
 
         final ByteData? bytes = await image.toByteData(format: ImageByteFormat.png);
 

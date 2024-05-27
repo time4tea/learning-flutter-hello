@@ -5,11 +5,15 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:hello/card.dart';
+import 'dart:io';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:hello/main.dart';
+
+import '../test/fake_http_client.dart';
 
 Widget single(Widget w) {
   return MaterialApp(home: w);
@@ -17,24 +21,55 @@ Widget single(Widget w) {
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    try {
+      HttpOverrides.runZoned(() async {
+        // Build our app and trigger a frame.
+        var myApp = MyApp();
+        await tester.pumpWidget(myApp);
+        var ensureSemantics = tester.ensureSemantics();
 
-    var booking = Booking(
-        title: BookingTitle("some title"),
-        subtitle: BookingSubtitle("subtitle"));
+        // Verify that our counter starts at 0.
 
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+        await tester.pumpAndSettle();
+        try {
+          // debugDumpApp();
+          debugDumpSemanticsTree();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+          expect(find.semantics.byIdentifier((r"booking")), findsOne);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+          expect(find.text('0'), findsOne);
+          expect(find.text('1'), findsNothing);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+          // Tap the '+' icon and trigger a frame.
+          await tester.tap(find.byIcon(Icons.add));
+          await tester.pump();
+
+          // Verify that our counter has incremented.
+          expect(find.text('0'), findsNothing);
+          expect(find.text('1'), findsOneWidget);
+        } finally {
+          ensureSemantics.dispose();
+        }
+      },
+          createHttpClient: (securityContext) => FakeHttpClient(
+                (HttpClientRequest p0, HttpClient p1) => FakeHttpResponse(
+                    body: File(
+                            "/home/richja/Pictures/GettyImages-80471741-15d0f8c6753843b2aeb4a34b1e176929-3349558499.jpg")
+                        .readAsBytesSync()),
+              ));
+    } finally {}
   });
+}
+
+extension SemanticsIdentifiers on CommonSemanticsFinders {
+  SemanticsFinder byIdentifier(String label, {FlutterView? view}) {
+    return byPredicate(
+      (SemanticsNode node) => node.identifier == label,
+      describeMatch: (Plurality plurality) => '${switch (plurality) {
+        Plurality.one => 'SemanticsNode',
+        Plurality.zero || Plurality.many => 'SemanticsNodes',
+      }} with label "$label"',
+      view: view,
+    );
+  }
 }
