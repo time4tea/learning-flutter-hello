@@ -6,7 +6,6 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -62,14 +61,19 @@ void main() {
 }
 
 extension SemanticsIdentifiers on CommonSemanticsFinders {
-  SemanticsFinder byIdentifier(String label, {FlutterView? view}) {
+  SemanticsFinder byIdentifier(String identifier) {
     return byPredicate(
-      (SemanticsNode node) => node.identifier == label,
-      describeMatch: (Plurality plurality) => '${switch (plurality) {
-        Plurality.one => 'SemanticsNode',
-        Plurality.zero || Plurality.many => 'SemanticsNodes',
-      }} with label "$label"',
-      view: view,
+      (node) => node.identifier == identifier,
+      describeMatch: (p) => p.triviallyPlural("SemanticsIdentifier", "of $identifier"),
     );
+  }
+}
+
+extension PluralityExplanation on Plurality {
+  String triviallyPlural(String word, String rest) {
+    return '${switch (this) {
+      Plurality.one => word,
+      Plurality.zero || Plurality.many => '${word}s',
+    }} ${rest}';
   }
 }
