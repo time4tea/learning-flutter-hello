@@ -32,7 +32,7 @@ class BookingWidget extends StatelessWidget {
                     leading: const Icon(Icons.album),
                     title: Text(booking.title.value),
                     subtitle: Text(booking.subtitle.value),
-                    trailing: Image.network(booking.imageUri)),
+                    trailing: Image.network(booking.imageUri, excludeFromSemantics: true,)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[

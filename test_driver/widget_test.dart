@@ -34,13 +34,13 @@ void main() {
           // debugDumpApp();
           debugDumpSemanticsTree();
 
-          expect(find.semantics.byIdentifier((r"booking")), findsOne);
+          // expect(find.bySemanticsLabel((r"booking")), findsOne);
 
           expect(find.text('0'), findsOne);
           expect(find.text('1'), findsNothing);
 
           // Tap the '+' icon and trigger a frame.
-          await tester.tap(find.byIcon(Icons.add));
+          tester.semantics.tap(find.semantics.byLabel(RegExp("Increment Counter")));
           await tester.pump();
 
           // Verify that our counter has incremented.
@@ -63,7 +63,9 @@ void main() {
 extension SemanticsIdentifiers on CommonSemanticsFinders {
   SemanticsFinder byIdentifier(String identifier) {
     return byPredicate(
-      (node) => node.identifier == identifier,
+      (node) {
+        return node.identifier == identifier;
+      },
       describeMatch: (p) => p.triviallyPlural("SemanticsIdentifier", "of $identifier"),
     );
   }

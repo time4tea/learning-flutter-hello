@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // showSemanticsDebugger: true,
+      showSemanticsDebugger: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -117,13 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: Semantics(
-          label: "Plus Button",
-          child: FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          )), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment Counter',
+        child: const Icon(Icons.add, semanticLabel: "Increment Counter"),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
